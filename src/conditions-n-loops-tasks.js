@@ -391,10 +391,16 @@ function rotateMatrix(matrix) {
   for (let i = 0; i < matrix[0].length; i += 1) newArr[i] = [];
 
   for (let i = 0; i < matrix.length; i += 1) {
-    for (let j = matrix[i].length - 1; j >= 0; j -= 1)
-      newArr[i].push(matrix[j][i]);
+    let k = 0;
+    for (let j = matrix[i].length - 1; j >= 0; j -= 1) {
+      newArr[i][k] = matrix[j][i];
+      k += 1;
+    }
   }
-  return newArr;
+  const newArr2 = matrix;
+  for (let i = 0; i < matrix.length; i += 1)
+    for (let j = 0; j < matrix[i].length; j += 1) newArr2[i][j] = newArr[i][j];
+  return matrix;
 }
 
 /**
