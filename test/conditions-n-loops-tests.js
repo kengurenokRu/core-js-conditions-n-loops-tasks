@@ -640,3 +640,4 @@ describe('core-js-conditions-n-loops optimal implementation', () => {
     assert.deepEqual(tasks.getNearestBigger(sourceNumber), nearestNumber);
   });
 });
+
