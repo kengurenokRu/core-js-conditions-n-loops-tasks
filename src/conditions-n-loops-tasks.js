@@ -526,38 +526,93 @@ function shuffleChar(str, iterations) {
  * @returns {number} The nearest larger number, or original number if none exists.
  */
 function getNearestBigger(number) {
-  console.log(number);
-  const arr = number.toString().split('');
-  let p;
-  let o;
-  for (let t = 0; t < arr.length; t += 1) {
-    if (arr[t] < arr[t + 1]) {
-      p = t;
+  let pos1 = -1;
+  let pos2 = -1;
+  const strNumber = [];
+  const tempStr = [];
+  let p = number;
+  let t = -1;
+  while (p !== 0) {
+    t += 1;
+    tempStr[t] = p % 10;
+    p = Math.floor(p / 10);
+  }
+  t = -1;
+  for (let i = tempStr.length - 1; i >= 0; i -= 1) {
+    t += 1;
+    strNumber[t] = tempStr[i];
+  }
+  for (let i = strNumber.length - 1; i > 0; i -= 1) {
+    if (strNumber[i] > strNumber[i - 1]) {
+      pos1 = i - 1;
       break;
     }
-    if (t === arr.length - 1) p = t;
   }
-  console.log(p);
-  for (let k = p; k >= 0; k -= 1) {
-    if (arr[p] > arr[k]) {
-      o = k;
-      break;
+  if (pos1 === -1) return number;
+  pos2 = pos1 + 1;
+  for (let i = pos1 + 1; i < strNumber.length; i += 1) {
+    if (
+      strNumber[pos1] < strNumber[i] &&
+      strNumber[pos2] >= strNumber[i] &&
+      strNumber[pos2] !== strNumber[i]
+    ) {
+      pos2 = i;
     }
   }
-  console.log(o);
-  console.log('---');
-  let temp = arr[p];
-  arr[p] = arr[o];
-  arr[o] = temp;
-  for (let i = p; i < arr.length; i += 1)
-    for (let j = i; j < arr.length - 1; j += 1) {
-      if (arr[j] > arr[j + 1]) {
-        temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
+  if (pos2 === pos1) return number;
+  let str = '';
+  for (let i = 0; i < strNumber.length; i += 1) {
+    if (i !== pos1 && i !== pos2) {
+      str += strNumber[i];
+    } else if (i === pos1) {
+      str += strNumber[pos2];
+    } else {
+      str += strNumber[pos1];
+    }
+  }
+
+  p = parseInt(str, 10);
+  t = -1;
+  while (p !== 0) {
+    t += 1;
+    tempStr[t] = p % 10;
+    p = Math.floor(p / 10);
+  }
+  t = -1;
+  for (let i = tempStr.length - 1; i >= 0; i -= 1) {
+    t += 1;
+    strNumber[t] = tempStr[i];
+  }
+  for (let i = pos1 + 1; i <= strNumber.length - 1; i += 1)
+    for (let j = pos1 + 1; j <= strNumber.length - 2; j += 1) {
+      if (strNumber[j] > strNumber[j + 1]) {
+        str = '';
+        for (let k = 0; k < strNumber.length; k += 1) {
+          if (k !== j && k !== j + 1) {
+            str += strNumber[k];
+          } else if (k === j) {
+            str += strNumber[j + 1];
+          } else {
+            str += strNumber[j];
+          }
+        }
+        p = parseInt(str, 10);
+        t = -1;
+        while (p !== 0) {
+          t += 1;
+          tempStr[t] = p % 10;
+          p = Math.floor(p / 10);
+        }
+        t = -1;
+        for (let d = tempStr.length - 1; d >= 0; d -= 1) {
+          t += 1;
+          strNumber[t] = tempStr[d];
+        }
       }
     }
-  return parseInt(arr.join(''), 10);
+  str = '';
+  for (let i = 0; i < strNumber.length; i += 1) str += strNumber[i];
+  return parseInt(str, 10);
 }
 
 module.exports = {
